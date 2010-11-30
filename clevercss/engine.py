@@ -219,8 +219,11 @@ class Parser(object):
                         if url in imports:
                             fail('file "%s" imported twice' % url)
                         # Use absolute paths to allow cross-directory execution
-                        absdir = os.path.dirname(os.path.abspath(self.fname))
-                        absurl = os.path.join(absdir, url)
+			if self.fname:
+                            absdir = os.path.dirname(os.path.abspath(self.fname))
+                            absurl = os.path.join(absdir, url)
+			else:
+			    absurl = url
                         if not os.path.isfile(absurl):
                             fail('file "%s" was not found' % absurl)
                         imports[absurl] = (lineiter.lineno, open(absurl).read())

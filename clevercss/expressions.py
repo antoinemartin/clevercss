@@ -5,6 +5,7 @@ import os
 import utils
 import operator
 import consts
+import urllib
 from errors import *
 
 class Expr(object):
@@ -476,7 +477,7 @@ class URL(Literal):
         return Literal.mul(self, other, context)
 
     def to_string(self, context):
-        return 'url(%s)' % Literal.to_string(self, context)
+        return "url('%s')" % Literal.to_string(self, context)
 
 class SpriteMap(Expr):
     name = 'SpriteMap'
@@ -553,9 +554,9 @@ class SpriteMap(Expr):
 
     def get_sprite_url(self, sprite):
         if self.sprite_passthru_url:
-            return self.sprite_passthru_url + sprite.name
+            return urllib.quote_plus(self.sprite_passthru_url + sprite.name)
         else:
-            return self.image_url
+            return urllib.quote_plus(self.image_url)
 
     def annotate_used(self, sprite):
         pass

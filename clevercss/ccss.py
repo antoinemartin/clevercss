@@ -127,6 +127,10 @@ def convert_many(files, options):
             except (ParserError, EvalException), e:
                 sys.stderr.write('Error in file %s: %s\n' % (fname, e))
                 sys.exit(1)
+            if options.minified:
+                css = cssutils.CSSParser().parseString(converted)
+                cssutils.ser.prefs.useMinified()
+                converted = css.cssText
             dst = open(target, 'w')
             try:
                 print 'Writing output to %s...' % target

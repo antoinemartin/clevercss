@@ -12,10 +12,15 @@ setup(
     author_email='armin.ronacher@active-4.com',
     maintainer='David Ziegler',
     maintainer_email='david.ziegler@gmail.com',
-    version='0.2',
+    version='0.3',
     url='http://sandbox.pocoo.org/clevercss/',
-    download_url='http://github.com/dziegler/clevercss/tree',
-    py_modules=['clevercss'],
+    download_url='http://github.com/antoinemartin/clevercss/tree',
+    py_modules = [ 'extract_sprites' ],
+    packages=['clevercss'],
+    install_requires=['cssutils'],
+    entry_points = {
+        'console_scripts': [ 'ccss = clevercss.ccss:main' ]
+    },
     description='python inspired sass-like css preprocessor',
     long_description=readme_text,
     classifiers=[

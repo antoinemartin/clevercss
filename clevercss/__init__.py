@@ -259,6 +259,6 @@ def convert(source, context=None, fname=None, minified=False):
     context.minified = minified
     return engine.Engine(source, fname=fname).to_css(context)
 
-__all__ = ['convert']
+__all__ = ['convert','VERSION', '__doc__']
 
 # vim: et sw=4 sts=4
