@@ -4,8 +4,8 @@ from optparse import OptionParser
 import re
 import sys
 
-import clevercss
-from clevercss.errors import *
+from . import *
+from errors import *
 
 help_text = '''
 usage: %prog <file 1> ... <file n>
@@ -24,7 +24,7 @@ version_text = '''\
 CleverCSS Version %s
 Licensed under the BSD license.
 (c) Copyright 2007 by Armin Ronacher and Georg Brandl
-(c) Copyright 2010 by Jared Forsyth''' % clevercss.VERSION
+(c) Copyright 2010 by Jared Forsyth''' % VERSION
 
 def main():
     parser = OptionParser(usage=help_text, version=version_text)
@@ -92,19 +92,19 @@ def cleverfy(fname):
 
 def do_test():
     rx = re.compile(r'Example::\n(.*?)__END__(?ms)')
-    text = rx.search(clevercss.__doc__).group(1)
+    text = rx.search(__doc__).group(1)
     ccss = '\n'.join(line[8:].rstrip() for line in text.splitlines())
-    return clevercss.convert(ccss)
+    return convert(ccss)
 
 def list_colors():
-    print '%d known colors:' % len(clevercss.consts.COLORS)
-    for color in sorted(clevercss.consts.COLORS.items()):
+    print '%d known colors:' % len(consts.COLORS)
+    for color in sorted(consts.COLORS.items()):
         print '  %-30s%s' % color
 
 def convert_stream():
     import sys
     try:
-        print clevercss.convert(sys.stdin.read())
+        print convert(sys.stdin.read())
     except (ParserError, EvalException), e:
         sys.stderr.write('Error: %s\n' % e)
         sys.exit(1)
@@ -123,7 +123,7 @@ def convert_many(files, options):
         src = open(fname)
         try:
             try:
-                converted = clevercss.convert(src.read(), fname=fname)
+                converted = convert(src.read(), fname=fname)
             except (ParserError, EvalException), e:
                 sys.stderr.write('Error in file %s: %s\n' % (fname, e))
                 sys.exit(1)
